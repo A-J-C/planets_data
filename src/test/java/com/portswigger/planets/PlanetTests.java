@@ -158,14 +158,16 @@ public class PlanetTests {
     @Test
     @Description("Check equals method words")
     public void equalsMethodWorksForSameFields() {
-        Planet otherPlanet =  new Planet(NAME, MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
-        assertEquals(testPlanet, otherPlanet);
+        Planet planet1 = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
+        Planet planet2 = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
+
+        assertEquals(planet1, planet2);
     }
 
     @Test
     @Description("Check equals method words for unequal Planet's")
     public void equalsMethodWorksForDifferentFields() {
         Planet otherPlanet = new Planet("different", MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
-        assertTrue(otherPlanet != testPlanet);
+        assertTrue(!otherPlanet.equals(testPlanet));
     }
 }

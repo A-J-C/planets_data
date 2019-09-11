@@ -254,15 +254,18 @@ public class PlanetDAOTests {
     @Description("Check equals method works")
     public void checkTwoPlanetDAOsAreEqual() {
         // will make sure Planet's dont have to be the same too
-        Planet otherBluePlanet = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
+        Planet planet1 = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
+        Planet planet2 = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
 
-        PlanetDAO otherPlanets = new PlanetDAO();
-        otherPlanets.addPlanet(planetOrange);
-        otherPlanets.addPlanet(planetRed);
-        otherPlanets.addPlanet(otherBluePlanet);
-        otherPlanets.addPlanet(planetGreen);
+        PlanetDAO planets1 = new PlanetDAO();
+        planets1.addPlanet(planet1);
+        planets1.addPlanet(planetPurple);
 
-        assertEquals(otherPlanets, planets);
+        PlanetDAO planets2 = new PlanetDAO();
+        planets2.addPlanet(planet2);
+        planets2.addPlanet(planetPurple);
+
+        assertEquals(planets2, planets1);
     }
 
     @Test
@@ -274,7 +277,7 @@ public class PlanetDAOTests {
         otherPlanets.addPlanet(planetBlue);
         otherPlanets.addPlanet(planetPurple);
 
-        assertTrue(otherPlanets != planets);
+        assertTrue(!otherPlanets.equals(planets));
     }
 
     @Test
