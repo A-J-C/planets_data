@@ -8,6 +8,8 @@
 
 package com.portswigger.planets;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 public class Planet {
 
     // name of planet stored as String
@@ -57,4 +59,46 @@ public class Planet {
         return elements;
     }
 
+    /*
+     * Serialize object as ; seperated list.
+     * Works as first 5 fields can not contain a ;
+     * We can split of the very last field and take it as one
+     * regardless of it containing ;'s or not
+     */
+    public String serialize() {
+
+        // 1/0 represents boolean value
+        String output = Base64.encode(this.elements) + ";" +
+                ((this.atmosphere) ? "1" : "0") + ";" +
+                ((this.water) ? "1" : "0") + ";" +
+                this.weight +";" +
+                this.moons +";" +
+                this.name;
+
+        return output;
+    }
+
+    /*
+     * Read serialized object back in
+     * Splits the required number of times and reads in
+     */
+    public static Planet deserialize(String serializedObject) {
+
+        // split into a maximum of 6 parts
+        String[] fields = serializedObject.split(";", 6);
+
+        // check length
+        if (fields.length != 6)
+            throw new IllegalArgumentException("Your serialized object does not match the specification");
+
+        // cast variables
+        byte[] elements = Base64.decode(fields[0]);
+        boolean atmosphere = fields[1].equals("1");
+        boolean water = fields[2].equals("1");
+        long weight = Long.parseLong(fields[3]);
+        int moons = Integer.parseInt(fields[4]);
+        String name = fields[5];
+
+        return new Planet(name, moons, weight, water, atmosphere, elements);
+    }
 }
