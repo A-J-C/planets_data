@@ -145,7 +145,7 @@ public class PlanetTests {
     @Test
     @Description("Null values check")
     void serialisationNullCheck() {
-        Planet planet = new Planet(null, 0, 0, false, false, null);
+        Planet planet = new Planet("", 0, 0, false, false, null);
 
         String serializedPlanet = planet.serialize();
         Planet deserializedPlanet = planet.deserialize(serializedPlanet);
