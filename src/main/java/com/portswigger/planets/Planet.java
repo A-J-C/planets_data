@@ -32,4 +32,6 @@ public class Planet {
         this.atmosphere = atmosphere;
         this.elements = elements;
     }
+
+    
 }

@@ -13,6 +13,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlanetTests {
@@ -58,7 +61,8 @@ public class PlanetTests {
     @Test
     @Description("Check that name field was initialised as expected")
     public void nameFieldInitialised() {
-        assertEquals(testPlanet.name, NAME);
+        assertThat(testPlanet, hasProperty("name"));
+        assertThat(testPlanet, hasProperty("name", is(NAME)));
     }
 
     /*
@@ -67,7 +71,8 @@ public class PlanetTests {
     @Test
     @Description("Check that moons field was initialised as expected")
     public void moonsFieldInitialised() {
-        assertEquals(testPlanet.moons, MOONS);
+        assertThat(testPlanet, hasProperty("moons"));
+        assertThat(testPlanet, hasProperty("moons", is(MOONS)));
     }
 
     /*
@@ -76,7 +81,8 @@ public class PlanetTests {
     @Test
     @Description("Check that weight field was initialised as expected")
     public void weightFieldInitialised() {
-        assertEquals(testPlanet.weight, WEIGHT);
+        assertThat(testPlanet, hasProperty("weight"));
+        assertThat(testPlanet, hasProperty("weight", is(WEIGHT)));
     }
 
     /*
@@ -85,7 +91,8 @@ public class PlanetTests {
     @Test
     @Description("Check that water field was initialised as expected")
     public void waterFieldInitialised() {
-        assertEquals(testPlanet.water, WATER);
+        assertThat(testPlanet, hasProperty("water"));
+        assertThat(testPlanet, hasProperty("water", is(WATER)));
     }
 
     /*
@@ -94,7 +101,8 @@ public class PlanetTests {
     @Test
     @Description("Check that atmosphere field was initialised as expected")
     public void atmosphereFieldInitialised() {
-        assertEquals(testPlanet.atmosphere, ATMOSPHERE);
+        assertThat(testPlanet, hasProperty("atmosphere"));
+        assertThat(testPlanet, hasProperty("atmosphere", is(ATMOSPHERE)));
     }
 
     /*
@@ -103,7 +111,8 @@ public class PlanetTests {
     @Test
     @Description("Check that elements field was initialised as expected")
     public void elementsFieldInitialised() {
-        assertEquals(testPlanet.elements, ELEMENTS);
+        assertThat(testPlanet, hasProperty("elements"));
+        assertThat(testPlanet, hasProperty("elements", is(ELEMENTS)));
     }
 
 }
