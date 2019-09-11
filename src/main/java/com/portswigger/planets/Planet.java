@@ -60,17 +60,27 @@ public class Planet {
     }
 
     /*
-     * Serialize object as ; seperated list.
+     * Serialize object as semi-colon separated list.
      * Works as first 5 fields can not contain a ;
      * We can split of the very last field and take it as one
      * regardless of it containing ;'s or not
      */
     public String serialize() {
 
+        // base64 encode byte array, unless it is null
+        String elementsStr;
+        if(this.elements != null)
+            elementsStr = Base64.encode(this.elements);
+        else
+            elementsStr = "NULL";
+
         // 1/0 represents boolean value
-        String output = Base64.encode(this.elements) + ";" +
-                ((this.atmosphere) ? "1" : "0") + ";" +
-                ((this.water) ? "1" : "0") + ";" +
+        String atmosStr = ((this.atmosphere) ? "1" : "0");
+        String waterStr = ((this.water) ? "1" : "0");
+
+        String output = elementsStr + ";" +
+                atmosStr + ";" +
+                waterStr + ";" +
                 this.weight +";" +
                 this.moons +";" +
                 this.name;
@@ -92,7 +102,8 @@ public class Planet {
             throw new IllegalArgumentException("Your serialized object does not match the specification");
 
         // cast variables
-        byte[] elements = Base64.decode(fields[0]);
+        // remember to check for NULL
+        byte[] elements = (fields[0].equals("NULL")) ? null : Base64.decode(fields[0]);
         boolean atmosphere = fields[1].equals("1");
         boolean water = fields[2].equals("1");
         long weight = Long.parseLong(fields[3]);
