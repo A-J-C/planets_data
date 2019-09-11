@@ -14,8 +14,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PlanetTests {
@@ -115,4 +114,20 @@ public class PlanetTests {
         assertThat(testPlanet, hasProperty("elements", is(ELEMENTS)));
     }
 
+    @Test
+    void serialisationTest() {
+        String serializedPlanet = testPlanet.serialize();
+        Planet deserializedPlanet = testPlanet.deserialize(serializedPlanet);
+        assertThat(testPlanet, samePropertyValuesAs(deserializedPlanet));
+    }
+
+    @Test
+    @Description("Check if adding an extra semi-colon in name field breaks anything")
+    void serialisationNameCheck() {
+        Planet planet = new Planet(";name;with;semi;colons;", MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
+
+        String serializedPlanet = planet.serialize();
+        Planet deserializedPlanet = planet.deserialize(serializedPlanet);
+        assertThat(planet, samePropertyValuesAs(deserializedPlanet));
+    }
 }
