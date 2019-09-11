@@ -3,7 +3,7 @@
  * Date: 10/09/2019
  * Description: Stores data object for planet
  *      Uses several public final variables defined below
- *      For succinctness no getters or setters since public final
+ *      Getters are needed so hamcrest tests can perform reflection
  **********************/
 
 package com.portswigger.planets;
@@ -25,6 +25,13 @@ public class Planet {
     // presence of elements by atmoic number stored as byte array
     // largest atomic number is 118 so this fits in +- 127 range easily
     public final byte[] elements;
+
+    // Constants used in serialisation/deserialisation logic
+    private static final String NULL = "NULL";
+    private static final String TRUE = "1";
+    private static final String FALSE = "0";
+    private static final String DELI = ";";
+
 
     public Planet(String name, int moons, long weight, boolean water, boolean atmosphere, byte[] elements) {
         this.name = name;
@@ -68,21 +75,17 @@ public class Planet {
     public String serialize() {
 
         // base64 encode byte array, unless it is null
-        String elementsStr;
-        if(this.elements != null)
-            elementsStr = Base64.encode(this.elements);
-        else
-            elementsStr = "NULL";
+        String elementsStr = (this.elements != null) ? Base64.encode(this.elements) : NULL;
 
-        // 1/0 represents boolean value
-        String atmosStr = ((this.atmosphere) ? "1" : "0");
-        String waterStr = ((this.water) ? "1" : "0");
+        // 1/0 represents boolean value as defined in global constant
+        String atmosStr = ((this.atmosphere) ? TRUE : FALSE);
+        String waterStr = ((this.water) ? TRUE : FALSE);
 
-        String output = elementsStr + ";" +
-                atmosStr + ";" +
-                waterStr + ";" +
-                this.weight +";" +
-                this.moons +";" +
+        String output = elementsStr + DELI +
+                atmosStr + DELI +
+                waterStr + DELI +
+                this.weight + DELI +
+                this.moons + DELI +
                 this.name;
 
         return output;
@@ -95,7 +98,7 @@ public class Planet {
     public static Planet deserialize(String serializedObject) {
 
         // split into a maximum of 6 parts
-        String[] fields = serializedObject.split(";", 6);
+        String[] fields = serializedObject.split(DELI, 6);
 
         // check length
         if (fields.length != 6)
@@ -103,9 +106,9 @@ public class Planet {
 
         // cast variables
         // remember to check for NULL
-        byte[] elements = (fields[0].equals("NULL")) ? null : Base64.decode(fields[0]);
-        boolean atmosphere = fields[1].equals("1");
-        boolean water = fields[2].equals("1");
+        byte[] elements = (fields[0].equals(NULL)) ? null : Base64.decode(fields[0]);
+        boolean atmosphere = fields[1].equals(TRUE);
+        boolean water = fields[2].equals(TRUE);
         long weight = Long.parseLong(fields[3]);
         int moons = Integer.parseInt(fields[4]);
         String name = fields[5];

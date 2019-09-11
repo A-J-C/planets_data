@@ -9,8 +9,7 @@
 package com.portswigger.planets;
 
 import com.sun.org.glassfish.gmbal.Description;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,23 +27,14 @@ public class PlanetTests {
     private static final boolean ATMOSPHERE = false;
     private static final byte[] ELEMENTS = {1, 2, 6, 8, 118};
 
-    private Planet testPlanet;
+    private static Planet testPlanet;
 
     /*
      * Set up the class that each of the tests run on
-     * stops repeat code and ensures consistent state
      */
-    @BeforeEach
-    public void setUpClass() {
+    @BeforeAll
+    public static void setUpClass() {
         testPlanet = new Planet(NAME, MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
-    }
-
-    /*
-     * Tear down class after to ensure clean up
-     */
-    @AfterEach
-    public void tearDown() {
-        testPlanet = null;
     }
 
     /*
@@ -118,7 +108,7 @@ public class PlanetTests {
     @Test
     void serialisationTest() {
         String serializedPlanet = testPlanet.serialize();
-        Planet deserializedPlanet = testPlanet.deserialize(serializedPlanet);
+        Planet deserializedPlanet = Planet.deserialize(serializedPlanet);
         assertThat(testPlanet, samePropertyValuesAs(deserializedPlanet));
     }
 
@@ -128,17 +118,17 @@ public class PlanetTests {
         Planet planet = new Planet(";name;with;semi;colons;", MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
 
         String serializedPlanet = planet.serialize();
-        Planet deserializedPlanet = planet.deserialize(serializedPlanet);
+        Planet deserializedPlanet = Planet.deserialize(serializedPlanet);
         assertThat(planet, samePropertyValuesAs(deserializedPlanet));
     }
 
     @Test
     @Description("Empty values check")
     void serialisationEmptyCheck() {
-        Planet planet = new Planet("", 0, 0, false, false, new byte[] {});
+        Planet planet = new Planet("", 0, 0, false, false, new byte[]{});
 
         String serializedPlanet = planet.serialize();
-        Planet deserializedPlanet = planet.deserialize(serializedPlanet);
+        Planet deserializedPlanet = Planet.deserialize(serializedPlanet);
         assertThat(planet, samePropertyValuesAs(deserializedPlanet));
     }
 
@@ -148,7 +138,7 @@ public class PlanetTests {
         Planet planet = new Planet("", 0, 0, false, false, null);
 
         String serializedPlanet = planet.serialize();
-        Planet deserializedPlanet = planet.deserialize(serializedPlanet);
+        Planet deserializedPlanet = Planet.deserialize(serializedPlanet);
         assertThat(planet, samePropertyValuesAs(deserializedPlanet));
     }
 
@@ -156,13 +146,13 @@ public class PlanetTests {
     @Description("Check for the correct exception being thrown when not enough values")
     void serialisationExceptionMissingValues() {
         String serializedPlanet = "name;0;0;";
-        assertThrows(IllegalArgumentException.class, () -> testPlanet.deserialize(serializedPlanet));
+        assertThrows(IllegalArgumentException.class, () -> Planet.deserialize(serializedPlanet));
     }
 
     @Test
     @Description("Check for the correct exception being thrown when incorrect values")
     void serialisationExceptionIncorrectValues() {
         String serializedPlanet = "null;0;0;notANumber;0;";
-        assertThrows(IllegalArgumentException.class, () -> testPlanet.deserialize(serializedPlanet));
+        assertThrows(IllegalArgumentException.class, () -> Planet.deserialize(serializedPlanet));
     }
 }
