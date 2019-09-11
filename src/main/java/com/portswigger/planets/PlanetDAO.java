@@ -21,15 +21,17 @@ public class PlanetDAO {
      * @return A List of the entire collection of Planets
      */
     public List<Planet> getAllPlanets() {
-        //TODO
-        return null;
+        return planets;
     }
 
     /*
      * @return A Planet specified by it's name or null if it doesn't exist
      */
     public Planet getByName(String name) {
-        //TODO
+        for(Planet p : planets)
+            if (p.getName().equals(name))
+                return p;
+
         return null;
     }
 
@@ -38,16 +40,25 @@ public class PlanetDAO {
      * @return A Planet specified by index or null if it doesn't exist
      */
     public Planet get(int i) {
-        //TODO
-        return null;
+
+        try {
+            return planets.get(i);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
     }
 
     /*
      * @return a List of all Planets that are habitable (i.e. have water and an atmosphere)
      */
-    public List<Planet> getAllHabitable() {
-        //TODO
-        return null;
+    public PlanetDAO getAllHabitable() {
+        PlanetDAO habitable = new PlanetDAO();
+
+        for(Planet p : planets)
+            if (p.isWater() && p.isAtmosphere())
+                habitable.addPlanet(p);
+
+        return habitable;
     }
 
     /*
@@ -56,9 +67,15 @@ public class PlanetDAO {
      * @param element the element number we are searching for
      * @return a List of Planets that contain the specified element
      */
-    public List<Planet> getAllWithElement(byte element) {
-        //TODO
-        return null;
+    public PlanetDAO getAllWithElement(byte element) {
+        PlanetDAO elements = new PlanetDAO();
+
+        for(Planet p : planets)
+            for (Byte elm : p.getElements())
+                if(elm == element)
+                    elements.addPlanet(p);
+
+        return elements;
     }
 
     /*
@@ -67,9 +84,14 @@ public class PlanetDAO {
      * @param name String that has to be naturally below all planets returned
      * @return a List of Planets that are alphabetically above name
      */
-    public List<Planet> getAllGreaterThanName(String name) {
-        //TODO
-        return null;
+    public PlanetDAO getAllGreaterThanName(String name) {
+        PlanetDAO bigNames = new PlanetDAO();
+
+        for(Planet p : planets)
+            if (p.getName().compareTo(name) > 0)
+                bigNames.addPlanet(p);
+
+        return bigNames;
     }
 
     /*
@@ -78,16 +100,21 @@ public class PlanetDAO {
      * @param minMoons minimum number of moons needed to be selected
      * @return a List of Planets that have the minimum number of moons
      */
-    public List<Planet> getAllGreaterThanMoon(int minMoons) {
-        //TODO
-        return null;
+    public PlanetDAO getAllGreaterThanMoon(int minMoons) {
+        PlanetDAO bigMoon = new PlanetDAO();
+
+        for(Planet p : planets)
+            if (p.getMoons() >= minMoons)
+                bigMoon.addPlanet(p);
+
+        return bigMoon;
     }
 
     /*
      * @param planet the Planet object to be added to the list
      */
     public void addPlanet(Planet planet) {
-        //TODO
+        planets.add(planet);
     }
 
     /*
@@ -96,25 +123,31 @@ public class PlanetDAO {
      * @param planet gives a Planet object, if any Planets match this description they will be removed
      */
     public void removePlanet(Planet planet) {
-        //TODO
+        planets.remove(planet);
     }
 
     /*
      * Overload the removePlanet method to also allow removal by direct index
-     *
+     * Throws IndexOutOfBoundsException
      * @param i index of planet to remove
      */
     public void removePlanet(int i) {
-        //TODO
+        planets.remove(i);
     }
 
     /*
      * Returns true if collection contains a Planet of the same description
+     * which means we can't reuse the ArrayList definition as we aren't bothered
+     * if the objects aren't the exact same reference only if the properties are the same
      *
      * @param planet A Planet object to compare
      */
     public boolean contains(Planet planet) {
-        //TODO
+
+        for(Planet p : planets)
+            if (p.equals(planet))
+                return true;
+
         return false;
     }
 
@@ -124,8 +157,7 @@ public class PlanetDAO {
      * @return int of the size of the collection
      */
     public int numberOfPlanets() {
-        //TODO
-        return 0;
+        return planets.size();
     }
 
     /*
@@ -140,6 +172,35 @@ public class PlanetDAO {
      */
     public void sortNames() {
         //TODO
+    }
+
+    /*
+     * Override equals method so tests can determine if I am outputting the correct PlanetDAO objects
+     *
+     * @param object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object object) {
+
+        // basic checks
+        if (object == null || this.getClass() != object.getClass())
+            return false;
+        if (object == this)
+            return true;
+
+        // cast
+        PlanetDAO otherPlanets = (PlanetDAO) object;
+
+        // size check
+        if (this.numberOfPlanets() != otherPlanets.numberOfPlanets())
+            return false;
+
+        for (Planet p : this.getAllPlanets())
+            if (!otherPlanets.contains(p))
+                return false;
+
+        return true;
     }
 
 }
