@@ -33,5 +33,27 @@ public class Planet {
         this.elements = elements;
     }
 
-    
+    public String getName() {
+        return name;
+    }
+
+    public int getMoons() {
+        return moons;
+    }
+
+    public long getWeight() {
+        return weight;
+    }
+
+    public boolean isWater() {
+        return water;
+    }
+
+    public boolean isAtmosphere() {
+        return atmosphere;
+    }
+
+    public byte[] getElements() {
+        return elements;
+    }
 }
