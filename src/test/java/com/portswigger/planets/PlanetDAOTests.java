@@ -124,11 +124,11 @@ public class PlanetDAOTests {
     @Test
     @Description("Check if get habitable works")
     public void getHabitableReturnsOnlyWaterAndAtmos() {
-        // create the list that should be returned
-        List<Planet> habitablePlanets = new ArrayList<Planet>() {{
-            add(planetGreen);
-            add(planetOrange);
-        }};
+        // create the list that should be returned;
+
+        PlanetDAO habitablePlanets = new PlanetDAO();
+        habitablePlanets.addPlanet(planetGreen);
+        habitablePlanets.addPlanet(planetOrange);
 
         assertEquals(habitablePlanets, planets.getAllHabitable());
     }
@@ -140,17 +140,17 @@ public class PlanetDAOTests {
         uninhabitablePlanets.addPlanet(planetRed);
         uninhabitablePlanets.addPlanet(planetBlue);
 
-        assertTrue(planets.getAllHabitable().isEmpty());
+        assertTrue(planets.getAllHabitable().numberOfPlanets() == 0);
     }
 
     @Test
     @Description("Check if get element works")
     public void getAllWithElementReturnsList() {
-        List<Planet> element10Planets = new ArrayList<Planet>() {{
-            add(planetRed);
-            add(planetGreen);
-            add(planetOrange);
-        }};
+
+        PlanetDAO element10Planets = new PlanetDAO();
+        element10Planets.addPlanet(planetRed);
+        element10Planets.addPlanet(planetGreen);
+        element10Planets.addPlanet(planetOrange);
 
         assertEquals(element10Planets, planets.getAllWithElement((byte) 10));
     }
@@ -158,16 +158,16 @@ public class PlanetDAOTests {
     @Test
     @Description("Check if get element works when element doesn't exist anywhere")
     public void getAllWithElementReturnsEmptyList() {
-        assertTrue(planets.getAllWithElement((byte) 3).isEmpty());
+        assertTrue(planets.getAllWithElement((byte) 3).numberOfPlanets() == 0);
     }
 
     @Test
     @Description("Check if get all greater than name works")
     public void getAllGreaterThanNameReturnsCorrectly() {
-        List<Planet> bigNamePlanets = new ArrayList<Planet>() {{
-            add(planetRed);
-            add(planetOrange);
-        }};
+
+        PlanetDAO bigNamePlanets = new PlanetDAO();
+        bigNamePlanets.addPlanet(planetRed);
+        bigNamePlanets.addPlanet(planetOrange);
 
         assertEquals(bigNamePlanets, planets.getAllGreaterThanName("Green"));
     }
@@ -175,10 +175,10 @@ public class PlanetDAOTests {
     @Test
     @Description("Check if get all greater than moon works")
     public void getAllGreaterThanMoonReturnsCorrectly() {
-        List<Planet> bigMoonPlanets = new ArrayList<Planet>() {{
-            add(planetRed);
-            add(planetGreen);
-        }};
+
+        PlanetDAO bigMoonPlanets = new PlanetDAO();
+        bigMoonPlanets.addPlanet(planetRed);
+        bigMoonPlanets.addPlanet(planetGreen);
 
         assertEquals(bigMoonPlanets, planets.getAllGreaterThanMoon(2));
     }
