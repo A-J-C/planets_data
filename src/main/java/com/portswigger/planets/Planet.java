@@ -120,4 +120,33 @@ public class Planet {
 
         return new Planet(name, moons, weight, water, atmosphere, elements);
     }
+
+    /*
+     * Override equals method so tests can determine if two Planet's are equal
+     *
+     * @param object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object object) {
+        // basic checks
+        if (object == null || this.getClass() != object.getClass())
+            return false;
+        if (object == this)
+            return true;
+
+        // cast
+        Planet otherPlanet = (Planet) object;
+
+        // check all fields are identical
+        if(this.getMoons() != otherPlanet.getMoons() ||
+                this.getElements() != otherPlanet.getElements() ||
+                this.getName() != otherPlanet.getName() ||
+                this.getWeight() != otherPlanet.getWeight() ||
+                this.isWater() != otherPlanet.isWater() ||
+                this.isAtmosphere() != otherPlanet.isAtmosphere())
+            return false;
+
+        return true;
+    }
 }
