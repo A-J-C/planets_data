@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlanetTests {
 
@@ -106,7 +105,7 @@ public class PlanetTests {
     }
 
     @Test
-    void serialisationToDeserialisationSame() {
+    public void serialisationToDeserialisationSame() {
         String serializedPlanet = testPlanet.serialize();
         Planet deserializedPlanet = Planet.deserialize(serializedPlanet);
         assertThat(testPlanet, samePropertyValuesAs(deserializedPlanet));
@@ -114,7 +113,7 @@ public class PlanetTests {
 
     @Test
     @Description("Check if adding an extra semi-colon in name field breaks anything")
-    void serialisationNamWithDelimiters() {
+    public void serialisationNamWithDelimiters() {
         Planet planet = new Planet(";name;with;semi;colons;", MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
 
         String serializedPlanet = planet.serialize();
@@ -124,7 +123,7 @@ public class PlanetTests {
 
     @Test
     @Description("Empty values check")
-    void serialisationAllValuesEmpty() {
+    public void serialisationAllValuesEmpty() {
         Planet planet = new Planet("", 0, 0, false, false, new byte[]{});
 
         String serializedPlanet = planet.serialize();
@@ -134,7 +133,7 @@ public class PlanetTests {
 
     @Test
     @Description("Null values check")
-    void serialisationElementsNull() {
+    public void serialisationElementsNull() {
         Planet planet = new Planet("", 0, 0, false, false, null);
 
         String serializedPlanet = planet.serialize();
@@ -144,15 +143,29 @@ public class PlanetTests {
 
     @Test
     @Description("Check for the correct exception being thrown when not enough values")
-    void serialisationThrowsExceptionMissingValues() {
+    public void serialisationThrowsExceptionMissingValues() {
         String serializedPlanet = "name;0;0;";
         assertThrows(IllegalArgumentException.class, () -> Planet.deserialize(serializedPlanet));
     }
 
     @Test
     @Description("Check for the correct exception being thrown when incorrect values")
-    void serialisationThrowsExceptionIncorrectValues() {
+    public void serialisationThrowsExceptionIncorrectValues() {
         String serializedPlanet = "null;0;0;notANumber;0;";
         assertThrows(IllegalArgumentException.class, () -> Planet.deserialize(serializedPlanet));
+    }
+
+    @Test
+    @Description("Check equals method words")
+    public void equalsMethodWorksForSameFields() {
+        Planet otherPlanet =  new Planet(NAME, MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
+        assertEquals(testPlanet, otherPlanet);
+    }
+
+    @Test
+    @Description("Check equals method words for unequal Planet's")
+    public void equalsMethodWorksForDifferentFields() {
+        Planet otherPlanet = new Planet("different", MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
+        assertTrue(otherPlanet != testPlanet);
     }
 }

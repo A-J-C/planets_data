@@ -14,8 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlanetDAOTests {
 
@@ -140,7 +139,7 @@ public class PlanetDAOTests {
         uninhabitablePlanets.addPlanet(planetRed);
         uninhabitablePlanets.addPlanet(planetBlue);
 
-        assertTrue(planets.getAllHabitable().numberOfPlanets() == 0);
+        assertTrue(uninhabitablePlanets.getAllHabitable().numberOfPlanets() == 0);
     }
 
     @Test
@@ -211,7 +210,7 @@ public class PlanetDAOTests {
     @Test
     @Description("Removing planet by index object works when it is not present")
     public void removeByIndexDoesNotExist() {
-        planets.removePlanet(10);
+        assertThrows(IndexOutOfBoundsException.class, () -> planets.removePlanet(10));
 
         assertTrue(planets.contains(planetRed));
         assertTrue(planets.contains(planetOrange));
@@ -249,6 +248,33 @@ public class PlanetDAOTests {
         assertEquals(4, planets.numberOfPlanets());
         planets.removePlanet(planetRed);
         assertEquals(3, planets.numberOfPlanets());
+    }
+
+    @Test
+    @Description("Check equals method works")
+    public void checkTwoPlanetDAOsAreEqual() {
+        // will make sure Planet's dont have to be the same too
+        Planet otherBluePlanet = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
+
+        PlanetDAO otherPlanets = new PlanetDAO();
+        otherPlanets.addPlanet(planetOrange);
+        otherPlanets.addPlanet(planetRed);
+        otherPlanets.addPlanet(otherBluePlanet);
+        otherPlanets.addPlanet(planetGreen);
+
+        assertEquals(otherPlanets, planets);
+    }
+
+    @Test
+    @Description("Check equals method works for unequal")
+    public void checkTwoPlanetDAOsAreUnEqual() {
+        PlanetDAO otherPlanets = new PlanetDAO();
+        otherPlanets.addPlanet(planetOrange);
+        otherPlanets.addPlanet(planetRed);
+        otherPlanets.addPlanet(planetBlue);
+        otherPlanets.addPlanet(planetPurple);
+
+        assertTrue(otherPlanets != planets);
     }
 
     @Test
