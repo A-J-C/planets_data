@@ -7,6 +7,7 @@
 package com.portswigger.planets;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class PlanetDAO {
@@ -164,14 +165,14 @@ public class PlanetDAO {
      * Sort the collection by the natural ordering of the number of moons, ascending
      */
     public void sortMoons() {
-        //TODO
+        planets.sort(compareByMoons);
     }
 
     /*
      * Sort the collection by the natural ordering of the names, ascending
      */
     public void sortNames() {
-        //TODO
+        planets.sort(compareByName);
     }
 
     /*
@@ -202,5 +203,19 @@ public class PlanetDAO {
 
         return true;
     }
+
+    Comparator<Planet> compareByName = new Comparator<Planet>() {
+        @Override
+        public int compare(Planet planet1, Planet planet2) {
+            return planet1.getName().compareTo(planet2.getName());
+        }
+    };
+
+    Comparator<Planet> compareByMoons = new Comparator<Planet>() {
+        @Override
+        public int compare(Planet planet1, Planet planet2) {
+            return Integer.compare(planet1.getMoons(), planet2.getMoons());
+        }
+    };
 
 }
