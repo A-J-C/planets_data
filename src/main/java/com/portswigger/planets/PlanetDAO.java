@@ -51,6 +51,17 @@ public class PlanetDAO {
     }
 
     /*
+     * Returns all Planets with a the specified email
+     *
+     * @param element the element number we are searching for
+     * @return a List of Planets that contain the specified element
+     */
+    public List<Planet> getAllWithElement(byte element) {
+        //TODO
+        return null;
+    }
+
+    /*
      * Returns all Planets with a name alphabetically greater than the parameter
      *
      * @param name String that has to be naturally below all planets returned
