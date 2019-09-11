@@ -1,6 +1,6 @@
 /*********************
  * Author: Alex Craig
- * Date: 10/09/2019
+ * Date: 11/09/2019
  * Description: Stores data object for planet
  *      Uses several public final variables defined below
  *      Getters are needed so hamcrest tests can perform reflection

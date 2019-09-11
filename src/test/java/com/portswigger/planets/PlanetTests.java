@@ -1,6 +1,6 @@
 /*********************
  * Author: Alex Craig
- * Date: 10/09/2019
+ * Date: 11/09/2019
  * Description: Series of very basic tests which ensure the Planet
  *      class exists and initialises properly
  *      Also checks JUnit has been imported by Maven through sanityCheck()
@@ -106,7 +106,7 @@ public class PlanetTests {
     }
 
     @Test
-    void serialisationTest() {
+    void serialisationToDeserialisationSame() {
         String serializedPlanet = testPlanet.serialize();
         Planet deserializedPlanet = Planet.deserialize(serializedPlanet);
         assertThat(testPlanet, samePropertyValuesAs(deserializedPlanet));
@@ -114,7 +114,7 @@ public class PlanetTests {
 
     @Test
     @Description("Check if adding an extra semi-colon in name field breaks anything")
-    void serialisationNameCheck() {
+    void serialisationNamWithDelimiters() {
         Planet planet = new Planet(";name;with;semi;colons;", MOONS, WEIGHT, WATER, ATMOSPHERE, ELEMENTS);
 
         String serializedPlanet = planet.serialize();
@@ -124,7 +124,7 @@ public class PlanetTests {
 
     @Test
     @Description("Empty values check")
-    void serialisationEmptyCheck() {
+    void serialisationAllValuesEmpty() {
         Planet planet = new Planet("", 0, 0, false, false, new byte[]{});
 
         String serializedPlanet = planet.serialize();
@@ -134,7 +134,7 @@ public class PlanetTests {
 
     @Test
     @Description("Null values check")
-    void serialisationNullCheck() {
+    void serialisationElementsNull() {
         Planet planet = new Planet("", 0, 0, false, false, null);
 
         String serializedPlanet = planet.serialize();
@@ -144,14 +144,14 @@ public class PlanetTests {
 
     @Test
     @Description("Check for the correct exception being thrown when not enough values")
-    void serialisationExceptionMissingValues() {
+    void serialisationThrowsExceptionMissingValues() {
         String serializedPlanet = "name;0;0;";
         assertThrows(IllegalArgumentException.class, () -> Planet.deserialize(serializedPlanet));
     }
 
     @Test
     @Description("Check for the correct exception being thrown when incorrect values")
-    void serialisationExceptionIncorrectValues() {
+    void serialisationThrowsExceptionIncorrectValues() {
         String serializedPlanet = "null;0;0;notANumber;0;";
         assertThrows(IllegalArgumentException.class, () -> Planet.deserialize(serializedPlanet));
     }
