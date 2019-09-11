@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlanetTests {
 
@@ -129,5 +130,39 @@ public class PlanetTests {
         String serializedPlanet = planet.serialize();
         Planet deserializedPlanet = planet.deserialize(serializedPlanet);
         assertThat(planet, samePropertyValuesAs(deserializedPlanet));
+    }
+
+    @Test
+    @Description("Empty values check")
+    void serialisationEmptyCheck() {
+        Planet planet = new Planet("", 0, 0, false, false, new byte[] {});
+
+        String serializedPlanet = planet.serialize();
+        Planet deserializedPlanet = planet.deserialize(serializedPlanet);
+        assertThat(planet, samePropertyValuesAs(deserializedPlanet));
+    }
+
+    @Test
+    @Description("Null values check")
+    void serialisationNullCheck() {
+        Planet planet = new Planet(null, 0, 0, false, false, null);
+
+        String serializedPlanet = planet.serialize();
+        Planet deserializedPlanet = planet.deserialize(serializedPlanet);
+        assertThat(planet, samePropertyValuesAs(deserializedPlanet));
+    }
+
+    @Test
+    @Description("Check for the correct exception being thrown when not enough values")
+    void serialisationExceptionMissingValues() {
+        String serializedPlanet = "name;0;0;";
+        assertThrows(IllegalArgumentException.class, () -> testPlanet.deserialize(serializedPlanet));
+    }
+
+    @Test
+    @Description("Check for the correct exception being thrown when incorrect values")
+    void serialisationExceptionIncorrectValues() {
+        String serializedPlanet = "null;0;0;notANumber;0;";
+        assertThrows(IllegalArgumentException.class, () -> testPlanet.deserialize(serializedPlanet));
     }
 }
