@@ -10,6 +10,8 @@ package com.portswigger.planets;
 
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
+import java.util.Arrays;
+
 public class Planet {
 
     // name of planet stored as String
@@ -129,6 +131,7 @@ public class Planet {
      */
     @Override
     public boolean equals(Object object) {
+
         // basic checks
         if (object == null || this.getClass() != object.getClass())
             return false;
@@ -140,11 +143,13 @@ public class Planet {
 
         // check all fields are identical
         if(this.getMoons() != otherPlanet.getMoons() ||
-                this.getElements() != otherPlanet.getElements() ||
                 this.getName() != otherPlanet.getName() ||
                 this.getWeight() != otherPlanet.getWeight() ||
                 this.isWater() != otherPlanet.isWater() ||
                 this.isAtmosphere() != otherPlanet.isAtmosphere())
+            return false;
+
+        if(!Arrays.equals(this.getElements(), otherPlanet.getElements()))
             return false;
 
         return true;
