@@ -71,6 +71,8 @@ public class Planet {
      * Works as first 5 fields can not contain a ;
      * We can split of the very last field and take it as one
      * regardless of it containing ;'s or not
+     *
+     * @return A custom formatted string representing the Planet object
      */
     public String serialize() {
 
@@ -94,6 +96,9 @@ public class Planet {
     /*
      * Read serialized object back in
      * Splits the required number of times and reads in
+     *
+     * @param serializedObject A string in the specific custom format detailed above
+     * @return A Planet built to match the properties described by the serialised object
      */
     public static Planet deserialize(String serializedObject) {
 
