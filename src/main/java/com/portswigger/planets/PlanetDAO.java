@@ -138,13 +138,11 @@ public class PlanetDAO {
 
     /*
      * Returns true if collection contains a Planet of the same description
-     * which means we can't
-     * if the objects aren't the exact same reference only if the properties are the same
-     * reuse the ArrayList definition as we aren't bothered
+     *
      * @param planet A Planet object to compare
+     * @return boolean of if present or not
      */
     public boolean contains(Planet planet) {
-
         return planets.contains(planet);
     }
 
@@ -213,6 +211,9 @@ public class PlanetDAO {
         return true;
     }
 
+    /*
+     * Comparator to allow sorting on the natural ordering of String name
+     */
     Comparator<Planet> compareByName = new Comparator<Planet>() {
         @Override
         public int compare(Planet planet1, Planet planet2) {
@@ -220,6 +221,10 @@ public class PlanetDAO {
         }
     };
 
+
+    /*
+     * Comparator to allow sorting on the natural order of int moons
+     */
     Comparator<Planet> compareByMoons = new Comparator<Planet>() {
         @Override
         public int compare(Planet planet1, Planet planet2) {
