@@ -138,18 +138,14 @@ public class PlanetDAO {
 
     /*
      * Returns true if collection contains a Planet of the same description
-     * which means we can't reuse the ArrayList definition as we aren't bothered
+     * which means we can't
      * if the objects aren't the exact same reference only if the properties are the same
-     *
+     * reuse the ArrayList definition as we aren't bothered
      * @param planet A Planet object to compare
      */
     public boolean contains(Planet planet) {
 
-        for(Planet p : planets)
-            if (p.equals(planet))
-                return true;
-
-        return false;
+        return planets.contains(planet);
     }
 
     /*
@@ -163,6 +159,7 @@ public class PlanetDAO {
 
     /*
      * Sort the collection by the natural ordering of the number of moons, ascending
+     * does not return the sorted collection
      */
     public void sortMoons() {
         planets.sort(compareByMoons);
@@ -170,10 +167,22 @@ public class PlanetDAO {
 
     /*
      * Sort the collection by the natural ordering of the names, ascending
+     * does not return the sorted collection
      */
     public void sortNames() {
         planets.sort(compareByName);
     }
+
+    /*
+     * gets the index of planet from given Planet object
+     *
+     * @param planet Planet object looking for
+     * @return int index of the Planet, or -1 if it doesn't exist in the collection
+     */
+    public int indexOfPlanet(Planet planet) {
+        return planets.indexOf(planet);
+    }
+
 
     /*
      * Override equals method so tests can determine if I am outputting the correct PlanetDAO objects
