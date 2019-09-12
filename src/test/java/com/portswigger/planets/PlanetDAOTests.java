@@ -226,6 +226,9 @@ public class PlanetDAOTests {
         assertTrue(planets.contains(planetOrange));
         assertTrue(planets.contains(planetGreen));
         assertTrue(planets.contains(planetBlue));
+
+        Planet dupBlue = new Planet("Blue", 0, 97345L, true, false, new byte[]{9, 19, 80, 118});
+        assertTrue(planets.contains(dupBlue));
     }
 
     @Test
@@ -298,6 +301,21 @@ public class PlanetDAOTests {
         assertEquals(planetGreen, planets.get(1));
         assertEquals(planetOrange, planets.get(2));
         assertEquals(planetRed, planets.get(3));
+    }
+
+    @Test
+    @Description("Check if indexOf works for correct case")
+    public void indexOfReturnsCorrectValue() {
+        assertEquals(0, planets.indexOfPlanet(planetRed));
+        assertEquals(1, planets.indexOfPlanet(planetBlue));
+        assertEquals(2, planets.indexOfPlanet(planetGreen));
+        assertEquals(3, planets.indexOfPlanet(planetOrange));
+    }
+
+    @Test
+    @Description("Check if indexOf works for incorrect case")
+    public void indexOfFailsCorrectly() {
+        assertEquals(-1, planets.indexOfPlanet(planetPurple));
     }
 
 }
